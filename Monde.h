@@ -13,7 +13,7 @@ class Monde{
     void dessine(sf::RenderWindow &window);
     private:
     std::vector<Cercle> entite;
-    // std::vector<sf::RectangleShape> plateforme;
+    std::vector<sf::RectangleShape> plateforme;
 };
 
 #endif

@@ -26,6 +26,7 @@ int main(){
         }
 
         window.clear();
+        world.dessine(window);
         //world.dessine(window);
         window.display();
     }
