@@ -11,6 +11,7 @@ Plateforme::Plateforme(sf::Vector2f origine, sf::Vector2f size, int color){
         break;
     }
     this->setCo();
+    std::cout << "plateforme construite" << std::endl;
 }
 
 void Plateforme::setCo(sf::Vector2f co){

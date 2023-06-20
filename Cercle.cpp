@@ -1,6 +1,7 @@
 #include "Cercle.h"
 
 Cercle::Cercle(){
+    std::cout << "construction cercle" << std::endl;
     this->shape = sf::CircleShape(50);
     int x = this->shape.getOrigin().x;
     int y = this->shape.getOrigin().y;
@@ -8,6 +9,7 @@ Cercle::Cercle(){
     this->centreX = x - radius/2; 
     this->basY = y - radius;
     shape.setFillColor(sf::Color::Green);
+    std::cout << "cercle construit" << std::endl;
 }
 
 void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
