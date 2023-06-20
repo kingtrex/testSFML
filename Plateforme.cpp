@@ -15,11 +15,12 @@ Plateforme::Plateforme(sf::Vector2f origine, sf::Vector2f size, int color){
 
 void Plateforme::setCo(sf::Vector2f co){
     this->shape.setOrigin(co);
+    this->setCo();
+
 }
 
 void Plateforme::setCo(){
     this->leftBorder = this->shape.getOrigin().x;
     this->rightBorder = this->shape.getOrigin().x - this->shape.getSize().x;
-    this->setCo();
 }
 
