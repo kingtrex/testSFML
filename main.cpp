@@ -19,9 +19,9 @@ int main(){
         }    
         std::cout << clock.getElapsedTime().asSeconds() << std::endl;
             
-        agent.mouvement(clock.getElapsedTime().asSeconds());
-        
-        if((int) clock.getElapsedTime().asSeconds() == 1){
+        world.mouvementEntite(clock.getElapsedTime().asSeconds());
+
+        if(clock.getElapsedTime().asSeconds() > 0.1){
             clock.restart();
         }
 
