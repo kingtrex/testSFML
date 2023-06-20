@@ -8,12 +8,9 @@ Monde::Monde(){
 }
 
 void Monde::mouvementEntite(float temps){
-    this->entite.begin()->mouvement(temps, this->plateforme);
-    // if(entite.size() > 1){
-    //     for(int i = 1; i < entite.size(); i++){
-
-    //     }
-    // }
+    for(int i = 0; i < this->entite.size(); i++){
+        this->entite[i].mouvement(temps, this->plateforme);
+    }
 }
 
 void Monde::dessine(sf::RenderWindow &window){

@@ -11,7 +11,7 @@ class Plateforme{
         color: int: couleur de la plateforme(1: Blue)
     */
     Plateforme(sf::Vector2f origine, sf::Vector2f size, int color);
-    ~Plateforme(){std::cout << "destruction plateforme" << std::endl;};
+    ~Plateforme(){};
     /*
         récupérer la référence de la plateforme
         return: sf::RectangleShape &

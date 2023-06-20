@@ -6,7 +6,7 @@
 class Cercle{
     public:
         Cercle();
-        ~Cercle(){std::cout << "destruction cercle" << std::endl;};
+        ~Cercle(){};
         /*
         gestion du mouvement du cercle
         temps: float: quand temps > 0.1, le cercle descend par la gravité
@@ -18,6 +18,7 @@ class Cercle{
         return: sf::CircleShape &
         */
         sf::CircleShape &getShape(){return this->shape;}
+        void updateCo();
     private:
         sf::CircleShape shape;
         float centreX, basY;
