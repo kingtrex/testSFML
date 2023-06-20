@@ -1,10 +1,10 @@
-#include "cercle.h"
+#ifndef MAIN_H
+#define MAIN_H
+#include "headers.h"
 int main(){
 
     sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
-    Cercle agent;
-    agent.getShape().setOrigin(-100,-100);
-    agent.getShape().setFillColor(sf::Color::Green);
+    Monde world;
     sf::Clock clock;
 
     while (window.isOpen()){
@@ -26,9 +26,11 @@ int main(){
         }
 
         window.clear();
-        window.draw(agent.getShape());
+        world.dessine(window);
+        //world.dessine(window);
         window.display();
     }
 
     return 0;
 }
+#endif
