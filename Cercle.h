@@ -22,5 +22,6 @@ class Cercle{
     private:
         sf::CircleShape shape;
         float centreX, basY;
+        int fall;
 };
 #endif
