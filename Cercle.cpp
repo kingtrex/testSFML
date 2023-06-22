@@ -2,31 +2,72 @@
 
 Cercle::Cercle(){
     this->shape = sf::CircleShape(50);
+    shape.setFillColor(sf::Color::Green);
+    std::cout << "cercle construit" << std::endl;
+    this->fall = 0;
+    this->speed = 1;
+}
+
+void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
+    
+    // if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
+    //     this->speed++;
+    // }
+    // if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
+    //     this->shape.setOrigin(this->shape.getOrigin().x + (this->speed), this->shape.getOrigin().y);
+    // }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
+    //     this->shape.setOrigin(this->shape.getOrigin().x - (this->speed), this->shape.getOrigin().y);
+    // }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && this->fall == 50){
+    //     std::cout << "fall: " << this->fall << std::endl;
+    //     //this->shape.setOrigin(this->shape.getOrigin().x, this->shape.getOrigin().y - 1);
+    // }
+    
+
+
+    // float dirX = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) - sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
+    // if(dirX != 0){
+    //     float norm = pow(dirX, 2.f);
+    //     if(dirX < 0){
+    //         this->shape.setOrigin(this->shape.getOrigin().x - 1, this->shape.getOrigin().y);
+    //     }else if(dirX > 0){
+    //         this->shape.setOrigin(this->shape.getOrigin().x + 1, this->shape.getOrigin().y);
+    //     }
+    // }
+
+    sf::Vector2f pos = this->shape.getOrigin();
+    sf::Vector2f velocity = sf::Vector2f(0, -1);
+
+    float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
+    - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
+
+    velocity.x += movX;
+    pos += velocity;
+    this->shape.setOrigin(pos);
+    // if(temps > 0.1){
+
+    //     bool surPlateforme = false;
+    //     for(int i = 0; i < rect.size(); i++){
+    //         std::cout << "basY: " << this->basY << std::endl;
+    //         std::cout << "centreX: " << this->centreX << std::endl;
+    //         std::cout << "y: " << rect[i].getShape().getOrigin().y << std::endl;
+    //         std::cout << "x: " << rect[i].getLeft() << " " << rect[i].getRight() << std::endl;
+    //         if((this->basY != rect[i].getShape().getOrigin().y) || (this->basY == rect[i].getShape().getOrigin().y && (this->centreX > rect[i].getLeft() || this->centreX < rect[i].getRight())) && (!surPlateforme && fall == 50)){
+    //             this->shape.setOrigin(this->shape.getOrigin().x, this->shape.getOrigin().y - 1);
+    //             surPlateforme = true;
+    //             this->fall = 0;
+    //         }
+    //     }
+    // }
+    updateCo();
+    if(fall < 50) fall++;
+    
+}
+
+void Cercle::updateCo(){
     int x = this->shape.getOrigin().x;
     int y = this->shape.getOrigin().y;
+
     float radius = this->shape.getRadius();
     this->centreX = x - radius/2; 
     this->basY = y - radius;
-    shape.setFillColor(sf::Color::Green);
-}
-
-void Cercle::mouvement(int temps, std::vector<Plateforme> rect){
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-        this->shape.setOrigin(this->shape.getOrigin().x + 1, this->shape.getOrigin().y);
-    }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-        this->shape.setOrigin(this->shape.getOrigin().x - 1, this->shape.getOrigin().y);
-    }
-    if(temps == 1){
-        float coX = this->shape.getOrigin().x;
-        float coY = this->shape.getOrigin().y;
-    
-        for(int i = 0; i < rect.size(); i++){
-            float recX = rect[i].getLeft();
-            float maxX = rect[i].getRight();
-            if((coX + (this->shape.getRadius()/2) <= recX) && (coX + (this->shape.getRadius()/2) >= maxX)){
-                this->shape.setOrigin(this->shape.getOrigin().x, this->shape.getOrigin().y - 1);
-            }
-        }
-    }
-    
 }
