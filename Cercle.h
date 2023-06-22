@@ -3,6 +3,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "Plateforme.h"
+#include <cmath>
 class Cercle{
     public:
         Cercle();
@@ -23,5 +24,6 @@ class Cercle{
         sf::CircleShape shape;
         float centreX, basY;
         int fall;
+        int speed;
 };
 #endif

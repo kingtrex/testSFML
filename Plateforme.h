@@ -34,7 +34,7 @@ class Plateforme{
     /*
         modifier l'origine de la plateforme
         co: sf::Vector2f: coordonnées en x et y de la nouvelle origine de la plateforme
-    */
+    */    
     void setCo(sf::Vector2f co);
 
     private:
