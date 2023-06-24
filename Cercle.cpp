@@ -9,7 +9,7 @@ Cercle::Cercle(){
     this->speed = 1;
 }
 
-void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
+void Cercle::mouvement(float temps, std::vector<Plateforme> &rect){
     
     // if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
     //     this->speed++;
@@ -71,4 +71,10 @@ void Cercle::updateCo(){
     float radius = this->shape.getRadius();
     this->centreX = x - radius/2; 
     this->basY = y - radius;
+}
+
+bool Cercle::hasCollide(float x, float y, std::vector<Plateforme> &rect){
+    for(int i = 0; i < rect.size(); i++){
+        
+    }
 }
