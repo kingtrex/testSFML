@@ -5,4 +5,4 @@ compile:
 
 link:
 	g++ *.o -o main -Lsrc/lib -lsfml-graphics -lsfml-window -lsfml-system
-	rm *.o
+	

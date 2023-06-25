@@ -34,16 +34,20 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
     //         this->shape.setOrigin(this->shape.getOrigin().x + 1, this->shape.getOrigin().y);
     //     }
     // }
+    if(temps >= 0.01){
+        sf::Vector2f pos = this->shape.getOrigin();
+        sf::Vector2f velocity = sf::Vector2f(0, 0);
+        if(!this->isCol(rect, 0)){
+            velocity.y = -1.0f;
+        }
+        // velocity.y = -1.0f;
+        float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
+        - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
 
-    sf::Vector2f pos = this->shape.getOrigin();
-    sf::Vector2f velocity = sf::Vector2f(0, -1);
-
-    float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
-    - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
-
-    velocity.x += movX;
-    pos += velocity;
-    this->shape.setOrigin(pos);
+        velocity.x += movX;
+        pos += velocity;
+        this->shape.setOrigin(pos);
+    }
     // if(temps > 0.1){
 
     //     bool surPlateforme = false;
@@ -69,6 +73,19 @@ void Cercle::updateCo(){
     int y = this->shape.getOrigin().y;
 
     float radius = this->shape.getRadius();
-    this->centreX = x - radius/2; 
-    this->basY = y - radius;
+    this->centreX = x - radius; 
+    this->basY = y - (radius*2);
+}
+
+bool Cercle::isCol(std::vector<Plateforme> plateforme, int axe){
+    for(int i = 0; i < plateforme.size(); i++){
+        std::cout << "BasY: " << this->basY << std::endl;
+        std::cout << "Origine Y plateforme: " << plateforme[i].getShape().getOrigin().y << std::endl;
+        std::cout << "centreX: " << this->centreX << std::endl;
+        if(this->basY == plateforme[i].getShape().getOrigin().y && this->centreX >= plateforme[i].getRight() && this->centreX <= plateforme[i].getLeft()){
+            return true;
+        }
+    }
+    return false;
+
 }

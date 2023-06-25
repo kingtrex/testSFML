@@ -21,6 +21,9 @@ void Plateforme::setCo(sf::Vector2f co){
 
 void Plateforme::setCo(){
     this->leftBorder = this->shape.getOrigin().x;
+    std::cout << "bord gauche: " << this->leftBorder << std::endl;
     this->rightBorder = this->shape.getOrigin().x - this->shape.getSize().x;
+    std::cout << "bord droit: " << this->rightBorder << std::endl;
+
 }
 
