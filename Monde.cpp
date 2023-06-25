@@ -5,6 +5,12 @@ Monde::Monde(){
     sf::Vector2f pos(0,-250);
     sf::Vector2f size(250, 20);
     plateforme.push_back(Plateforme(pos, size, 1));
+    pos = sf::Vector2f(-150, -350);
+    
+    plateforme.push_back(Plateforme(pos, size, 1));
+    pos = sf::Vector2f(-150-250, 0);
+    size = sf::Vector2f(20, 500);
+    plateforme.push_back(Plateforme(pos, size, 2));
 }
 
 void Monde::mouvementEntite(float temps){

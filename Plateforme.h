@@ -17,15 +17,30 @@ class Plateforme{
         return: sf::RectangleShape &
     */
     sf::RectangleShape &getShape(){return this->shape;}
-    /*
-        récupérer la coordonnées gauche en x de la plateforme pour les colisions
+    /** 
+     * @brief 
+     * 
+     * @return les coordonnées du coin suppérieur gauche
     */
-    float getLeft(){return this->leftBorder;}
-    /*
-        récupérer la coordonnée droite en x de la plateforme pour les colisions
-        return: float
+    sf::Vector2f getUpLeft(){return this->upLeftCorner;}
+    /**
+     * @brief
+     * 
+     * @return les coordonnées du coin suppérieur droit
     */
-    float getRight(){return this->rightBorder;}
+    sf::Vector2f getUpRight(){return this->upRightCorner;}
+    /**
+     * @brief
+     * 
+     * @return les coordonnées du coin inférieur gauche
+    */
+    sf::Vector2f getBottomLeft(){return this->bottomLeftCorner;}
+    /**
+     * @brief
+     * 
+     * @return les coordonnées du coin inférieur droit
+    */
+    sf::Vector2f getBottomRight(){return this->bottomRightCorner;}
     /*
         modifier les coordonnées des bords gauche et droite de la plateforme
         return: float
@@ -38,8 +53,9 @@ class Plateforme{
     void setCo(sf::Vector2f co);
 
     private:
-    float leftBorder, rightBorder;
+    sf::Vector2f upRightCorner, upLeftCorner, bottomRightCorner, bottomLeftCorner;
     sf::RectangleShape shape;
+    int colId;
 };
 
 #endif

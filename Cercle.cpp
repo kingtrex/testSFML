@@ -10,59 +10,22 @@ Cercle::Cercle(){
 }
 
 void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
-    
-    // if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up)){
-    //     this->speed++;
-    // }
-    // if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left)){
-    //     this->shape.setOrigin(this->shape.getOrigin().x + (this->speed), this->shape.getOrigin().y);
-    // }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)){
-    //     this->shape.setOrigin(this->shape.getOrigin().x - (this->speed), this->shape.getOrigin().y);
-    // }else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down) && this->fall == 50){
-    //     std::cout << "fall: " << this->fall << std::endl;
-    //     //this->shape.setOrigin(this->shape.getOrigin().x, this->shape.getOrigin().y - 1);
-    // }
-    
 
-
-    // float dirX = sf::Keyboard::isKeyPressed(sf::Keyboard::Left) - sf::Keyboard::isKeyPressed(sf::Keyboard::Right);
-    // if(dirX != 0){
-    //     float norm = pow(dirX, 2.f);
-    //     if(dirX < 0){
-    //         this->shape.setOrigin(this->shape.getOrigin().x - 1, this->shape.getOrigin().y);
-    //     }else if(dirX > 0){
-    //         this->shape.setOrigin(this->shape.getOrigin().x + 1, this->shape.getOrigin().y);
-    //     }
-    // }
     if(temps >= 0.01){
         sf::Vector2f pos = this->shape.getOrigin();
         sf::Vector2f velocity = sf::Vector2f(0, 0);
-        if(!this->isCol(rect, 0)){
+        if(!this->isCol(rect)){
             velocity.y = -1.0f;
         }
         // velocity.y = -1.0f;
         float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
         - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
-
-        velocity.x += movX;
+        if(!this->isCol(rect, movX)){
+            velocity.x += movX;
+        }
         pos += velocity;
         this->shape.setOrigin(pos);
     }
-    // if(temps > 0.1){
-
-    //     bool surPlateforme = false;
-    //     for(int i = 0; i < rect.size(); i++){
-    //         std::cout << "basY: " << this->basY << std::endl;
-    //         std::cout << "centreX: " << this->centreX << std::endl;
-    //         std::cout << "y: " << rect[i].getShape().getOrigin().y << std::endl;
-    //         std::cout << "x: " << rect[i].getLeft() << " " << rect[i].getRight() << std::endl;
-    //         if((this->basY != rect[i].getShape().getOrigin().y) || (this->basY == rect[i].getShape().getOrigin().y && (this->centreX > rect[i].getLeft() || this->centreX < rect[i].getRight())) && (!surPlateforme && fall == 50)){
-    //             this->shape.setOrigin(this->shape.getOrigin().x, this->shape.getOrigin().y - 1);
-    //             surPlateforme = true;
-    //             this->fall = 0;
-    //         }
-    //     }
-    // }
     updateCo();
     if(fall < 50) fall++;
     
@@ -71,21 +34,46 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
 void Cercle::updateCo(){
     int x = this->shape.getOrigin().x;
     int y = this->shape.getOrigin().y;
-
     float radius = this->shape.getRadius();
-    this->centreX = x - radius; 
-    this->basY = y - (radius*2);
+    this->pointUp.x = x - radius; 
+    this->pointUp.y = y;
+
+    this->pointLeft.x = x;
+    this->pointLeft.y = y - radius;
+
+    this->pointRight.x = x - (radius*2);
+    this->pointRight.y = y - radius;
+
+    this->pointDown.x = x - radius;
+    this->pointDown.y = y - (radius*2);
 }
 
-bool Cercle::isCol(std::vector<Plateforme> plateforme, int axe){
+bool Cercle::isCol(std::vector<Plateforme> plateforme){
     for(int i = 0; i < plateforme.size(); i++){
-        std::cout << "BasY: " << this->basY << std::endl;
-        std::cout << "Origine Y plateforme: " << plateforme[i].getShape().getOrigin().y << std::endl;
-        std::cout << "centreX: " << this->centreX << std::endl;
-        if(this->basY == plateforme[i].getShape().getOrigin().y && this->centreX >= plateforme[i].getRight() && this->centreX <= plateforme[i].getLeft()){
+        sf::Vector2f upLeftCorner = plateforme[i].getUpLeft();
+        sf::Vector2f upRightCorner = plateforme[i].getUpRight();
+        float coY = plateforme[i].getShape().getOrigin().y;
+        //std::cout << "centreX: " << this->centreX << std::endl;
+        if(this->pointDown.y == coY && this->pointDown.x >= upRightCorner.x && this->pointDown.x <= upLeftCorner.x){
             return true;
         }
     }
+    return false;
+}
+
+bool Cercle::isCol(std::vector<Plateforme> plateforme, float dir){
+    
+    for(int i = 0; i < plateforme.size(); i++){
+        if(dir == 1){
+            if(this->pointLeft.y > plateforme[i].getUpRight().y || this->pointLeft.y < plateforme[i].getBottomRight().y) continue;
+            if(this->pointLeft.x == plateforme[i].getUpRight().x) return true;
+        }else if(dir == -1){
+            // if(plateforme[i].getShape().getFillColor() == sf::Color::Red) std::cout << "plateforme: " << plateforme[i].getUpLeft().x << " ; " << plateforme[i].getUpLeft().y << std::endl;
+            if(this->pointRight.y > plateforme[i].getUpLeft().y || this->pointRight.y < plateforme[i].getBottomLeft().y) continue;
+            if(this->pointRight.x == plateforme[i].getUpLeft().x) return true;
+        }
+    }
+    
     return false;
 
 }

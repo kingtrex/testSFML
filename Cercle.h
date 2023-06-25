@@ -21,17 +21,25 @@ class Cercle{
         sf::CircleShape &getShape(){return this->shape;}
         void updateCo();
         /**
+         * @brief
+         * 
+         * @param plateforme ensemble des plateformes
+         * @return true s'il y a une colision
+         * @return false s'il n'y a pas de colision
+        */
+        bool isCol(std::vector<Plateforme> plateforme);
+        /**
          * @brief 
          * 
          * @param plateforme ensemble des plateforme
-         * @param axe 0: verifie la colision sur une plateforme, 1: verifie la colision sur les cotés
+         * @param dir 1: vers la gauche, -1: vers la droite
          * @return true s'il y a une colision
          * @return false s'il n'y a pas de colision
          */
-        bool isCol(std::vector<Plateforme> plateforme, int axe);
+        bool isCol(std::vector<Plateforme> plateforme, float dir);
     private:
         sf::CircleShape shape;
-        float centreX, basY;
+        sf::Vector2f pointLeft, pointRight, pointUp, pointDown;
         int fall;
         int speed;
 };
