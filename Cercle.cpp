@@ -17,7 +17,8 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
         sf::Vector2f velocity = sf::Vector2f(0, 0);
         if(!this->isCol(rect)){
             velocity.y = -1.0f;
-        }
+            onGround = false;
+        }else onGround = !onGround;
         // velocity.y = -1.0f;
         float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
         - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
@@ -25,7 +26,7 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
             velocity.x += movX;
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->jump == 0) this->jump = 50;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->jump == 0 && onGround) this->jump = 100;
         if(this->jump != 0){
             this->jump--;
             velocity.y = 1.0f;

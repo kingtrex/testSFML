@@ -44,5 +44,6 @@ class Cercle{
         int fall;
         int speed;
         int jump;
+        bool onGround;
 };
 #endif
