@@ -10,7 +10,7 @@ class Plateforme{
         size: sf::Vector2f: taille en pixel des cotés de la plateforme
         color: int: couleur de la plateforme(1: Blue)
     */
-    Plateforme(sf::Vector2f origine, sf::Vector2f size, int color);
+    Plateforme(sf::Vector2f origine, sf::Vector2f size, int color, float angle = 0);
     ~Plateforme(){};
     /*
         récupérer la référence de la plateforme

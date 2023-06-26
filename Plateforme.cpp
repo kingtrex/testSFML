@@ -1,9 +1,10 @@
 #include "Plateforme.h"
 
-Plateforme::Plateforme(sf::Vector2f origine, sf::Vector2f size, int color){
+Plateforme::Plateforme(sf::Vector2f origine, sf::Vector2f size, int color, float angle){
     std::cout << "Création plateforme" << std::endl;
     this->shape = sf::RectangleShape();
     this->shape.setOrigin(origine);
+    //this->shape.setPosition(origine);
     this->shape.setSize(size);
     switch(color){
         case 1:
@@ -12,10 +13,14 @@ Plateforme::Plateforme(sf::Vector2f origine, sf::Vector2f size, int color){
         case 2:
         this->shape.setFillColor(sf::Color::Red);
         break;
+        case 3:
+        this->shape.setFillColor(sf::Color::Green);
     }
+    if(angle) this->shape.rotate(angle);
     this->setCo();
     this->colId = color;
     std::cout << "plateforme construite" << std::endl;
+    std::cout << "(" << this->shape.getPosition().x << " ; " << this->shape.getPosition().y << ")" << std::endl;
 }
 
 void Plateforme::setCo(sf::Vector2f co){
