@@ -50,13 +50,8 @@ void Cercle::updateCo(){
 
 bool Cercle::isCol(std::vector<Plateforme> plateforme){
     for(int i = 0; i < plateforme.size(); i++){
-        sf::Vector2f upLeftCorner = plateforme[i].getUpLeft();
-        sf::Vector2f upRightCorner = plateforme[i].getUpRight();
-        float coY = plateforme[i].getShape().getOrigin().y;
-        //std::cout << "centreX: " << this->centreX << std::endl;
-        if(this->pointDown.y == coY && this->pointDown.x >= upRightCorner.x && this->pointDown.x <= upLeftCorner.x){
-            return true;
-        }
+        if(this->pointDown.y != plateforme[i].getShape().getOrigin().y) continue;
+        if(this->pointDown.x <= plateforme[i].getUpLeft().x && this->pointDown.x >= plateforme[i].getUpRight().x) return true;
     }
     return false;
 }
@@ -68,7 +63,6 @@ bool Cercle::isCol(std::vector<Plateforme> plateforme, float dir){
             if(this->pointLeft.y > plateforme[i].getUpRight().y || this->pointLeft.y < plateforme[i].getBottomRight().y) continue;
             if(this->pointLeft.x == plateforme[i].getUpRight().x) return true;
         }else if(dir == -1){
-            // if(plateforme[i].getShape().getFillColor() == sf::Color::Red) std::cout << "plateforme: " << plateforme[i].getUpLeft().x << " ; " << plateforme[i].getUpLeft().y << std::endl;
             if(this->pointRight.y > plateforme[i].getUpLeft().y || this->pointRight.y < plateforme[i].getBottomLeft().y) continue;
             if(this->pointRight.x == plateforme[i].getUpLeft().x) return true;
         }
