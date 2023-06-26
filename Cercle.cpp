@@ -7,6 +7,7 @@ Cercle::Cercle(){
     std::cout << "cercle construit" << std::endl;
     this->fall = 0;
     this->speed = 1;
+    this->jump = 0;
 }
 
 void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
@@ -23,6 +24,13 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
         if(!this->isCol(rect, movX)){
             velocity.x += movX;
         }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->jump == 0) this->jump = 50;
+        if(this->jump != 0){
+            this->jump--;
+            velocity.y = 1.0f;
+        }
+
         pos += velocity;
         this->shape.setOrigin(pos);
     }
