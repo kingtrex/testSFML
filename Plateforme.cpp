@@ -16,11 +16,13 @@ Plateforme::Plateforme(sf::Vector2f origine, sf::Vector2f size, int color, float
         case 3:
         this->shape.setFillColor(sf::Color::Green);
     }
-    if(angle) this->shape.rotate(angle);
+    if(angle){
+        this->shape.rotate(angle);
+    }
     this->setCo();
     this->colId = color;
     std::cout << "plateforme construite" << std::endl;
-    std::cout << "(" << this->shape.getPosition().x << " ; " << this->shape.getPosition().y << ")" << std::endl;
+    std::cout << "(" << this->shape.getOrigin().x << " ; " << this->shape.getOrigin().y << ")" << std::endl;
 }
 
 void Plateforme::setCo(sf::Vector2f co){

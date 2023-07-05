@@ -2,6 +2,7 @@
 #define MONDE_H
 #include <iostream>
 #include <vector>
+
 #include "Cercle.h"
 #include "Plateforme.h"
 
@@ -15,8 +16,6 @@ class Monde{
     private:
     std::vector<Cercle> entite;
     std::vector<Plateforme> plateforme;
-    sf::Mouse coMouse;
-    sf::Text textMouse;
 };
 
 #endif

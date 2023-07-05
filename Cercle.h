@@ -27,7 +27,7 @@ class Cercle{
          * @return true s'il y a une colision
          * @return false s'il n'y a pas de colision
         */
-        bool isCol(std::vector<Plateforme> plateforme);
+        bool isCol(const std::vector<Plateforme> &plateforme);
         /**
          * @brief 
          * 
@@ -36,7 +36,7 @@ class Cercle{
          * @return true s'il y a une colision
          * @return false s'il n'y a pas de colision
          */
-        bool isCol(std::vector<Plateforme> plateforme, float dir);
+        bool isCol(const std::vector<Plateforme> &plateforme, float dir);
 
     private:
         sf::CircleShape shape;
@@ -45,5 +45,6 @@ class Cercle{
         int speed;
         int jump;
         bool onGround;
+        sf::Vector2f velocity;
 };
 #endif

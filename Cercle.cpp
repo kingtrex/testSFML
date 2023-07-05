@@ -14,11 +14,8 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
 
     if(temps >= 0.01){
         sf::Vector2f pos = this->shape.getOrigin();
-        sf::Vector2f velocity = sf::Vector2f(0, 0);
-        if(!this->isCol(rect)){
-            velocity.y = -1.0f;
-            onGround = false;
-        }else onGround = !onGround;
+
+
         // velocity.y = -1.0f;
         float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
         - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
@@ -27,16 +24,23 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
         }
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->jump == 0 && onGround) this->jump = 100;
+        velocity.y -= 1.0f;
         if(this->jump != 0){
             this->jump--;
-            velocity.y = 1.0f;
+            
         }
+
+        if(this->isCol(rect)){
+            velocity.y = 0.0f;
+            std::cout << velocity.y << std::endl;
+
+            onGround = false;
+        }else onGround = !onGround;
 
         pos += velocity;
         this->shape.setOrigin(pos);
     }
     updateCo();
-    if(fall < 50) fall++;
     
 }
 
@@ -57,7 +61,7 @@ void Cercle::updateCo(){
     this->pointDown.y = y - (radius*2);
 }
 
-bool Cercle::isCol(std::vector<Plateforme> plateforme){
+bool Cercle::isCol(const std::vector<Plateforme> &plateforme){
     for(int i = 0; i < plateforme.size(); i++){
         if(this->pointDown.y != plateforme[i].getShape().getOrigin().y) continue;
         if(this->pointDown.x <= plateforme[i].getUpLeft().x && this->pointDown.x >= plateforme[i].getUpRight().x) return true;
@@ -65,7 +69,7 @@ bool Cercle::isCol(std::vector<Plateforme> plateforme){
     return false;
 }
 
-bool Cercle::isCol(std::vector<Plateforme> plateforme, float dir){
+bool Cercle::isCol(const std::vector<Plateforme> &plateforme, float dir){
     
     for(int i = 0; i < plateforme.size(); i++){
         if(dir == 1){
