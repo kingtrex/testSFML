@@ -58,7 +58,7 @@ class Cercle{
         int sign(const float x);
     private:
         sf::CircleShape shape;
-        sf::Vector2f pointLeft, pointRight, pointUp, pointDown;
+        sf::Vector2f pointLeft, pointRight, pointUp, pointDown, pointCenter;
         sf::Vector2f velocity;
         int fall;
         int speed;

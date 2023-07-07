@@ -7,12 +7,12 @@ Cercle::Cercle(){
     std::cout << "cercle construit" << std::endl;
     this->fall = 0;
     this->speed = 1;
+    updateCo();
 }
 
 void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
 
     if(temps >= 0.01){
-        sf::Vector2f pos = this->shape.getOrigin();
 
 
         // velocity.y = -1.0f;
@@ -22,20 +22,48 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
 
         this->velocity.y += grav;
         this->velocity.x += movX;
-
-        if(hasCollide(pos.x + velocity.x, pos.y, rect)){
-            while(!hasCollide(pos.x + sign(velocity.x), pos.y, rect)){
-                pos.x = pos.x + sign(velocity.x);
-            }
-            velocity.x = 0;
-        }
+        //collision en X
+        sf::Vector2f pos = this->shape.getOrigin();
         
-        if(hasCollide(pos.x, pos.y + velocity.y, rect)){
-            while(!hasCollide(pos.x, pos.y + sign(velocity.y), rect)){
+        // switch(sign(movX)){
+        //     case -1:
+        //     pos = this->pointRight;
+        //     break;
+        //     case 1:
+        //     pos = this->pointLeft;
+        //     break;
+        //     case 0:
+        //     pos = this->pointDown;
+        // }
+        // if(hasCollide(pos.x + velocity.x, pos.y, rect)){
+        //     while(!hasCollide(pos.x + sign(velocity.x), pos.y, rect)){
+        //         pos.x = pos.x + sign(velocity.x);
+        //     }
+        //     velocity.x = 0;
+        // }
+
+        //collision en Y
+        float size = this->shape.getRadius();
+        // if(hasCollide(pos.x, pos.y + velocity.y, rect)){
+        //     while(!hasCollide(pos.x, pos.y + sign(velocity.y), rect)){
+        //         pos.y = pos.y + sign(velocity.y);
+        //     }
+        //     velocity.y = 0;
+        // }        
+
+        // if(hasCollide(this->pointDown.x, this->pointDown.y + velocity.y, rect)){
+        //     while(!hasCollide(this->pointDown.x, this->pointDown.y + sign(velocity.y), rect)){
+        //         pos.y = pos.y + sign(velocity.y);
+        //     }
+        //     velocity.y = 0;
+        // }
+
+        if(hasCollide(pos.x - size, (pos.y - 2*size) + velocity.y, rect)){
+            while(!hasCollide(pos.x - size, (pos.y - 2*size) + sign(velocity.y), rect)){
                 pos.y = pos.y + sign(velocity.y);
             }
             velocity.y = 0;
-        }        
+        }      
 
 
         //if(!this->isCol(rect, movX)){
@@ -79,6 +107,9 @@ void Cercle::updateCo(){
 
     this->pointDown.x = x - radius;
     this->pointDown.y = y - (radius*2);
+
+    // this->pointCenter.x = x - radius;
+    // this->pointCenter.y = y - radius;
 }
 
 bool Cercle::isCol(std::vector<Plateforme> plateforme){
@@ -112,13 +143,22 @@ bool Cercle::isCol(const std::vector<Plateforme> &plateforme, float dir){
 }
 
 bool Cercle::hasCollide(const float x, const float y, const std::vector<Plateforme> &plateforme){
+    std::cout << x << " " << y << std::endl;
     for (int i = 0; i < plateforme.size(); i++){
+        sf::Vector2f origine = plateforme[i].getShape().getOrigin();
+        sf::Vector2f size = plateforme[i].getShape().getSize();
+        if(x > origine.x || x < origine.x - size.x) continue;
+        if(y > origine.y || y < origine.y - size.y) continue;
+        if(y <= origine.y && y >= origine.y - size.y && x <= origine.x && x >= origine.x - size.x) return true;
 
-        sf::Vector2f topPoint = plateforme[i].getTop();
-        sf::Vector2f bottomPoint = plateforme[i].getBottom();
-        if(y > topPoint.y || y < bottomPoint.y) continue;
-        if(x > plateforme[i].getUpLeft().x || x < plateforme[i].getUpRight().x) continue;
-        return true;
+
+
+        // sf::Vector2f topPoint = plateforme[i].getTop();
+        // sf::Vector2f bottomPoint = plateforme[i].getBottom();
+        // if(y > topPoint.y || y < bottomPoint.y) continue;
+        // if(x > plateforme[i].getUpLeft().x || x < plateforme[i].getUpRight().x) continue;
+        // std::cout << "return true" << std::endl;
+        // return true;
 
         // switch(plateforme[i].getCol()){
         //     case 1:
@@ -132,6 +172,7 @@ bool Cercle::hasCollide(const float x, const float y, const std::vector<Platefor
         // }
 
     }
+    std::cout << "return false" << std::endl;
     return false;
 }
 

@@ -16,7 +16,7 @@ class Plateforme{
         récupérer la référence de la plateforme
         return: sf::RectangleShape &
     */
-    sf::RectangleShape &getShape(){return this->shape;}
+    const sf::RectangleShape &getShape()const {return this->shape;}
     /** 
      * @brief 
      * 
