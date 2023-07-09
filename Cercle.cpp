@@ -16,6 +16,7 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
 
 
         // velocity.y = -1.0f;
+        //1: a gauche, -1: a droite
         float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
         - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
         float grav = -1; 
@@ -24,65 +25,33 @@ void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
         this->velocity.x += movX;
         //collision en X
         sf::Vector2f pos = this->shape.getOrigin();
-        
-        // switch(sign(movX)){
-        //     case -1:
-        //     pos = this->pointRight;
-        //     break;
-        //     case 1:
-        //     pos = this->pointLeft;
-        //     break;
-        //     case 0:
-        //     pos = this->pointDown;
-        // }
-        // if(hasCollide(pos.x + velocity.x, pos.y, rect)){
-        //     while(!hasCollide(pos.x + sign(velocity.x), pos.y, rect)){
-        //         pos.x = pos.x + sign(velocity.x);
-        //     }
-        //     velocity.x = 0;
-        // }
-
+        float radius = this->shape.getRadius();
+        switch(sign(velocity.x)){
+            case -1:
+            if(hasCollide((pos.x - 2*radius)  + velocity.x, pos.y - radius, rect)){
+                while(!hasCollide((pos.x - 2*radius) + sign(velocity.x), pos.y - radius, rect)){
+                    pos.x = pos.x + sign(velocity.x);
+                }
+                velocity.x = 0;
+            }
+            break;
+            case 1:
+            if(hasCollide((pos.x + 2*radius)  + velocity.x, pos.y - radius, rect)){
+                while(!hasCollide((pos.x + 2*radius) + sign(velocity.x), pos.y - radius, rect)){
+                    pos.x = pos.x + sign(velocity.x);
+                }
+                velocity.x = 0;
+            }            
+            break;
+        }
         //collision en Y
-        float size = this->shape.getRadius();
-        // if(hasCollide(pos.x, pos.y + velocity.y, rect)){
-        //     while(!hasCollide(pos.x, pos.y + sign(velocity.y), rect)){
-        //         pos.y = pos.y + sign(velocity.y);
-        //     }
-        //     velocity.y = 0;
-        // }        
 
-        // if(hasCollide(this->pointDown.x, this->pointDown.y + velocity.y, rect)){
-        //     while(!hasCollide(this->pointDown.x, this->pointDown.y + sign(velocity.y), rect)){
-        //         pos.y = pos.y + sign(velocity.y);
-        //     }
-        //     velocity.y = 0;
-        // }
-
-        if(hasCollide(pos.x - size, (pos.y - 2*size) + velocity.y, rect)){
-            while(!hasCollide(pos.x - size, (pos.y - 2*size) + sign(velocity.y), rect)){
+        if(hasCollide(pos.x - radius, (pos.y - 2*radius) + velocity.y, rect)){
+            while(!hasCollide(pos.x - radius, (pos.y - 2*radius) + sign(velocity.y), rect)){
                 pos.y = pos.y + sign(velocity.y);
             }
             velocity.y = 0;
         }      
-
-
-        //if(!this->isCol(rect, movX)){
-        //     velocity.x += movX;
-        // }
-
-        // if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && this->jump == 0 && onGround) this->jump = 100;
-        // velocity.y -= 1.0f;
-        // if(this->jump != 0){
-        //     this->jump--;
-            
-        // }
-
-        // if(this->isCol(rect)){
-        //     velocity.y = 0.0f;
-        //     std::cout << velocity.y << std::endl;
-
-        //     onGround = false;
-        // }else onGround = !onGround;
 
         pos += velocity;
         this->shape.setOrigin(pos);
@@ -112,61 +81,38 @@ void Cercle::updateCo(){
     // this->pointCenter.y = y - radius;
 }
 
-bool Cercle::isCol(std::vector<Plateforme> plateforme){
-    for(int i = 0; i < plateforme.size(); i++){
-        if(this->pointDown.y != plateforme[i].getShape().getOrigin().y) continue;
-        if(this->pointDown.x <= plateforme[i].getUpLeft().x && this->pointDown.x >= plateforme[i].getUpRight().x) return true;
-    }
-    return false;
-}
+// bool Cercle::isCol(std::vector<Plateforme> plateforme){
+//     for(int i = 0; i < plateforme.size(); i++){
+//         if(this->pointDown.y != plateforme[i].getShape().getOrigin().y) continue;
+//         if(this->pointDown.x <= plateforme[i].getUpLeft().x && this->pointDown.x >= plateforme[i].getUpRight().x) return true;
+//     }
+//     return false;
+// }
 
-bool Cercle::isCol(const std::vector<Plateforme> &plateforme, float dir){
+// bool Cercle::isCol(const std::vector<Plateforme> &plateforme, float dir){
     
-    for(int i = 0; i < plateforme.size(); i++){
-        if(dir == 1){
-            if(this->pointLeft.y > plateforme[i].getUpRight().y || this->pointLeft.y < plateforme[i].getBottomRight().y) continue;
-            if(this->pointLeft.x == plateforme[i].getUpRight().x) return true;
-        }else if(dir == -1){
-            if(this->pointRight.y > plateforme[i].getUpLeft().y || this->pointRight.y < plateforme[i].getBottomLeft().y) continue;
-            if(this->pointRight.x == plateforme[i].getUpLeft().x) return true;
-        }
-    }
+//     for(int i = 0; i < plateforme.size(); i++){
+//         if(dir == 1){
+//             if(this->pointLeft.y > plateforme[i].getUpRight().y || this->pointLeft.y < plateforme[i].getBottomRight().y) continue;
+//             if(this->pointLeft.x == plateforme[i].getUpRight().x) return true;
+//         }else if(dir == -1){
+//             if(this->pointRight.y > plateforme[i].getUpLeft().y || this->pointRight.y < plateforme[i].getBottomLeft().y) continue;
+//             if(this->pointRight.x == plateforme[i].getUpLeft().x) return true;
+//         }
+//     }
     
-    return false;
+//     return false;
 
-}
+// }
 
 bool Cercle::hasCollide(const float x, const float y, const std::vector<Plateforme> &plateforme){
-    std::cout << x << " " << y << std::endl;
     for (int i = 0; i < plateforme.size(); i++){
         sf::Vector2f origine = plateforme[i].getShape().getOrigin();
         sf::Vector2f size = plateforme[i].getShape().getSize();
         if(x > origine.x || x < origine.x - size.x) continue;
         if(y > origine.y || y < origine.y - size.y) continue;
-        if(y <= origine.y && y >= origine.y - size.y && x <= origine.x && x >= origine.x - size.x) return true;
-
-
-
-        // sf::Vector2f topPoint = plateforme[i].getTop();
-        // sf::Vector2f bottomPoint = plateforme[i].getBottom();
-        // if(y > topPoint.y || y < bottomPoint.y) continue;
-        // if(x > plateforme[i].getUpLeft().x || x < plateforme[i].getUpRight().x) continue;
-        // std::cout << "return true" << std::endl;
-        // return true;
-
-        // switch(plateforme[i].getCol()){
-        //     case 1:
-        //     if(y != plateforme[i].getShape().getOrigin().y) continue;
-        //     if(x <= plateforme[i].getUpLeft().x && x >= plateforme[i].getUpRight().x) return true;
-        //     break;
-        //     case 2:
-
-        //     break;
-
-        // }
-
+        return true;
     }
-    std::cout << "return false" << std::endl;
     return false;
 }
 

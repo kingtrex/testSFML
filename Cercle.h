@@ -20,23 +20,23 @@ class Cercle{
         */
         sf::CircleShape &getShape(){return this->shape;}
         void updateCo();
-        /**
-         * @brief Verifie si il y a une colision en Y
-         * 
-         * @param plateforme ensemble des plateformes
-         * @return true s'il y a une colision
-         * @return false s'il n'y a pas de colision
-        */
-        bool isCol(std::vector<Plateforme> plateforme);
-        /**
-         * @brief Verifie si il y a collision en X
-         * 
-         * @param plateforme ensemble des plateforme
-         * @param dir -1: vers la droite, 1: vers la gauche
-         * @return true s'il y a une colision
-         * @return false s'il n'y a pas de colision
-         */
-        bool isCol(const std::vector<Plateforme> &plateforme, float dir);
+        // /**
+        //  * @brief Verifie si il y a une colision en Y
+        //  * 
+        //  * @param plateforme ensemble des plateformes
+        //  * @return true s'il y a une colision
+        //  * @return false s'il n'y a pas de colision
+        // */
+        // bool isCol(std::vector<Plateforme> plateforme);
+        // /**
+        //  * @brief Verifie si il y a collision en X
+        //  * 
+        //  * @param plateforme ensemble des plateforme
+        //  * @param dir -1: vers la droite, 1: vers la gauche
+        //  * @return true s'il y a une colision
+        //  * @return false s'il n'y a pas de colision
+        //  */
+        // bool isCol(const std::vector<Plateforme> &plateforme, float dir);
         /**
          * @brief Verifie si il y a une collision avec les coordonnées données
          * 
