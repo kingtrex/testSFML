@@ -21,7 +21,7 @@ class Cercle{
         sf::CircleShape &getShape(){return this->shape;}
         void updateCo();
         /**
-         * @brief
+         * @brief Verifie si il y a une colision en Y
          * 
          * @param plateforme ensemble des plateformes
          * @return true s'il y a une colision
@@ -29,18 +29,37 @@ class Cercle{
         */
         bool isCol(std::vector<Plateforme> plateforme);
         /**
-         * @brief 
+         * @brief Verifie si il y a collision en X
          * 
          * @param plateforme ensemble des plateforme
          * @param dir -1: vers la droite, 1: vers la gauche
          * @return true s'il y a une colision
          * @return false s'il n'y a pas de colision
          */
-        bool isCol(std::vector<Plateforme> plateforme, float dir);
-
+        bool isCol(const std::vector<Plateforme> &plateforme, float dir);
+        /**
+         * @brief Verifie si il y a une collision avec les coordonnées données
+         * 
+         * @param x coordonnée en X
+         * @param y coordonnée en Y
+         * @param plateforme vecteur de toute les plateformes
+         * @return true Il y a collision
+         * @return false sinon
+         */
+        bool hasCollide(const float x, const float y, const std::vector<Plateforme> &plateforme);
+        /**
+         * @brief retourne le signe de x
+         * 
+         * @param x 
+         * @return int -1 si x < 0,
+         * 0 si x = 0,
+         * 1 si x > 1
+         */
+        int sign(const float x);
     private:
         sf::CircleShape shape;
-        sf::Vector2f pointLeft, pointRight, pointUp, pointDown;
+        sf::Vector2f pointLeft, pointRight, pointUp, pointDown, pointCenter;
+        sf::Vector2f velocity;
         int fall;
         int speed;
         int jump;
