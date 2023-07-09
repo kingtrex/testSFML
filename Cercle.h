@@ -8,18 +8,25 @@ class Cercle{
     public:
         Cercle();
         ~Cercle(){};
-        /*
-        gestion du mouvement du cercle
-        temps: float: quand temps > 0.1, le cercle descend par la gravité
-        rect: std::vector<Plateform>: ensemble des plateformes
-        */
-        void mouvement(float temps, std::vector<Plateforme> rect);
-        /*
-        obtenir la référence du cercle
-        return: sf::CircleShape &
-        */
+        /**
+         * @brief déplacement des entités
+         * 
+         * @param temps 
+         * @param rect 
+         */
+        void mouvement(float temps, const std::vector<Plateforme> &rect);
+        /**
+         * @brief Get the Shape object
+         * 
+         * @return sf::CircleShape& 
+         */
         sf::CircleShape &getShape(){return this->shape;}
+        /**
+         * @brief mettre a jour les coordonnées importantes de l'entité
+         * 
+         */
         void updateCo();
+
         // /**
         //  * @brief Verifie si il y a une colision en Y
         //  * 
@@ -37,6 +44,7 @@ class Cercle{
         //  * @return false s'il n'y a pas de colision
         //  */
         // bool isCol(const std::vector<Plateforme> &plateforme, float dir);
+
         /**
          * @brief Verifie si il y a une collision avec les coordonnées données
          * 

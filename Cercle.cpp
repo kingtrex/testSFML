@@ -10,50 +10,50 @@ Cercle::Cercle(){
     updateCo();
 }
 
-void Cercle::mouvement(float temps, std::vector<Plateforme> rect){
+void Cercle::mouvement(float temps, const std::vector<Plateforme> &rect){
 
     if(temps >= 0.01){
 
 
         // velocity.y = -1.0f;
+        
         //1: a gauche, -1: a droite
         float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
         - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
-        float grav = -1; 
 
-        this->velocity.y += grav;
+        this->velocity.y += -1;
         this->velocity.x += movX;
         //collision en X
         sf::Vector2f pos = this->shape.getOrigin();
         float radius = this->shape.getRadius();
-        switch(sign(velocity.x)){
+        switch(sign(this->velocity.x)){
             case -1:
-            if(hasCollide((pos.x - 2*radius)  + velocity.x, pos.y - radius, rect)){
-                while(!hasCollide((pos.x - 2*radius) + sign(velocity.x), pos.y - radius, rect)){
-                    pos.x = pos.x + sign(velocity.x);
+            if(hasCollide((pos.x - 2*radius)  + this->velocity.x, pos.y - radius, rect)){
+                while(!hasCollide((pos.x - 2*radius) + sign(this->velocity.x), pos.y - radius, rect)){
+                    pos.x = pos.x + sign(this->velocity.x);
                 }
-                velocity.x = 0;
+                this->velocity.x = 0;
             }
             break;
             case 1:
-            if(hasCollide((pos.x + 2*radius)  + velocity.x, pos.y - radius, rect)){
-                while(!hasCollide((pos.x + 2*radius) + sign(velocity.x), pos.y - radius, rect)){
-                    pos.x = pos.x + sign(velocity.x);
+            if(hasCollide((pos.x + 2*radius)  + this->velocity.x, pos.y - radius, rect)){
+                while(!hasCollide((pos.x + 2*radius) + sign(this->velocity.x), pos.y - radius, rect)){
+                    pos.x = pos.x + sign(this->velocity.x);
                 }
-                velocity.x = 0;
+                this->velocity.x = 0;
             }            
             break;
         }
         //collision en Y
-
-        if(hasCollide(pos.x - radius, (pos.y - 2*radius) + velocity.y, rect)){
-            while(!hasCollide(pos.x - radius, (pos.y - 2*radius) + sign(velocity.y), rect)){
-                pos.y = pos.y + sign(velocity.y);
+        //modifier cet endroit pour les jump
+        if(hasCollide(pos.x - radius, (pos.y - 2*radius) + this->velocity.y, rect)){
+            while(!hasCollide(pos.x - radius, (pos.y - 2*radius) + sign(this->velocity.y), rect)){
+                pos.y = pos.y + sign(this->velocity.y);
             }
-            velocity.y = 0;
+            this->velocity.y = 0;
         }      
 
-        pos += velocity;
+        pos += this->velocity;
         this->shape.setOrigin(pos);
     }
     updateCo();
