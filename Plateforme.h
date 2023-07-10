@@ -8,7 +8,7 @@ class Plateforme{
         constructeur de la plateforme
         origine: sf::Vector2f: coordonnées de l'origine de la plateforme
         size: sf::Vector2f: taille en pixel des cotés de la plateforme
-        color: int: couleur de la plateforme(1: Blue)
+        color: int: couleur de la plateforme(1: Blue, 2: Res, 3: Green)
     */
     Plateforme(sf::Vector2f origine, sf::Vector2f size, int color, float angle = 0);
     ~Plateforme(){};
@@ -16,7 +16,7 @@ class Plateforme{
         récupérer la référence de la plateforme
         return: sf::RectangleShape &
     */
-    const sf::RectangleShape &getShape() const {return this->shape;}
+    const sf::RectangleShape &getShape()const {return this->shape;}
     /** 
      * @brief 
      * 
@@ -41,6 +41,15 @@ class Plateforme{
      * @return les coordonnées du coin inférieur droit
     */
     const sf::Vector2f getBottomRight()const {return this->bottomRightCorner;}
+    /**
+     * @brief Get the Col object
+     * 
+     * @return const int 
+     */
+    const int getCol()const {return this->colId;}
+    const sf::Vector2f getTop()const;
+    const sf::Vector2f getBottom()const;
+
     /*
         modifier les coordonnées des bords gauche et droite de la plateforme
         return: float

@@ -2,7 +2,7 @@
 
 Monde::Monde(){
     this->entite.push_back(Cercle());
-    sf::Vector2f pos(0,-250);
+    sf::Vector2f pos(0,-150);
     sf::Vector2f size(250, 20);
     plateforme.push_back(Plateforme(pos, size, 1));
     pos = sf::Vector2f(-150, -350);
