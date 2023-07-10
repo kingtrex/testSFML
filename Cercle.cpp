@@ -22,14 +22,14 @@ void Cercle::mouvement(float temps, const std::vector<Plateforme> &rect){
         float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
         - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && (onGround || this->jump < 10)){
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && (onGround || this->jump < 15)){
             this->velocity.y += 1;
             this->onGround = false;
             this->jump++;
         }else{
             this->velocity.y += -1;
         }
-        if(movX != 0){
+        if(movX != 0 && abs(this->velocity.x) <= 10){
             this->velocity.x += movX;
         }else{
             this->velocity.x -= sign(this->velocity.x);
