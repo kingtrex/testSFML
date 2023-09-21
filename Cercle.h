@@ -72,6 +72,5 @@ class Cercle{
         int speed;
         int jump;
         bool onGround;
-        sf::Vector2f velocity;
 };
 #endif

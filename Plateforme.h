@@ -2,6 +2,7 @@
 #define PLATEFORME_H
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <cmath>
 class Plateforme{
     public:
     /*
@@ -60,6 +61,16 @@ class Plateforme{
         co: sf::Vector2f: coordonnées en x et y de la nouvelle origine de la plateforme
     */    
     void setCo(sf::Vector2f co);
+
+    /**
+     * @brief update shape edge if the plateform has an angle 
+     * 
+     * @param co: point's coordinates
+     * @param size: distance par rapport a l'origine
+     * @param angle: angle of the plateform
+     *  
+    */
+    void fixPoint(sf::Vector2f co, double size, float angle, double radius);
 
     private:
     sf::Vector2f upRightCorner, upLeftCorner, bottomRightCorner, bottomLeftCorner;
