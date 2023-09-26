@@ -19,15 +19,15 @@ void Cercle::mouvement(float temps, const std::vector<Plateforme> &rect){
         // velocity.y = -1.0f;
         
         //1: a gauche, -1: a droite
-        float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Left) 
-        - sf::Keyboard::isKeyPressed(sf::Keyboard::Right));
+        float movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Right) 
+        - sf::Keyboard::isKeyPressed(sf::Keyboard::Left));
 
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && (onGround || this->jump < 15)){
-            this->velocity.y += 1;
+            this->velocity.y -= 1;
             this->onGround = false;
             this->jump++;
         }else{
-            this->velocity.y += -1;
+            this->velocity.y += 1;
         }
         if(movX != 0 && abs(this->velocity.x) <= 10){
             this->velocity.x += movX;
@@ -35,11 +35,11 @@ void Cercle::mouvement(float temps, const std::vector<Plateforme> &rect){
             this->velocity.x -= sign(this->velocity.x);
         }
         //collision en X
-        sf::Vector2f pos = this->shape.getOrigin();
+        sf::Vector2f pos = this->shape.getPosition();
         float radius = this->shape.getRadius();
         switch(sign(this->velocity.x)){
             case -1:
-            if(hasCollide((pos.x - 2*radius)  + this->velocity.x, pos.y - radius, rect)){
+            if(hasCollide((pos.x + 2*radius)  + this->velocity.x, pos.y - radius, rect)){
                 while(!hasCollide((pos.x - 2*radius) + sign(this->velocity.x), pos.y - radius, rect)){
                     pos.x = pos.x + sign(this->velocity.x);
                 }
@@ -59,20 +59,21 @@ void Cercle::mouvement(float temps, const std::vector<Plateforme> &rect){
         //modifier cet endroit pour les jump
 
         if(sign(this->velocity.y) > 0){
-            if(hasCollide(pos.x - radius, pos.y + this->velocity.y, rect)){
-                while(!hasCollide(pos.x - radius, pos.y + sign(this->velocity.y), rect)){
-                    pos.y = pos.y + sign(this->velocity.y);
-                }
-                this->velocity.y = 0;
-            }      
-        }else{
-            if(hasCollide(pos.x - radius, (pos.y - 2*radius) + this->velocity.y, rect)){
-                while(!hasCollide(pos.x - radius, (pos.y - 2*radius) + sign(this->velocity.y), rect)){
+            if(hasCollide(pos.x + radius, pos.y + (2*radius) + this->velocity.y, rect)){
+                while(!hasCollide(pos.x + radius, pos.y + (2*radius) + sign(this->velocity.y), rect)){
                     pos.y = pos.y + sign(this->velocity.y);
                 }
                 this->velocity.y = 0;
                 this->onGround = true;
                 this->jump = 0;
+            }      
+        }else{
+            if(hasCollide(pos.x + radius, pos.y + this->velocity.y, rect)){
+                while(!hasCollide(pos.x + radius, pos.y + sign(this->velocity.y), rect)){
+                    pos.y = pos.y - sign(this->velocity.y);
+                }
+                this->velocity.y = 0;
+
             }      
         }
 
@@ -84,7 +85,7 @@ void Cercle::mouvement(float temps, const std::vector<Plateforme> &rect){
         // }      
 
         pos += this->velocity;
-        this->shape.setOrigin(pos);
+        this->shape.setPosition(pos);
     }
     updateCo();
     
@@ -94,17 +95,17 @@ void Cercle::updateCo(){
     int x = this->shape.getOrigin().x;
     int y = this->shape.getOrigin().y;
     float radius = this->shape.getRadius();
-    this->pointUp.x = x - radius; 
+    this->pointUp.x = x + radius; 
     this->pointUp.y = y;
 
     this->pointLeft.x = x;
-    this->pointLeft.y = y - radius;
+    this->pointLeft.y = y + radius;
 
-    this->pointRight.x = x - (radius*2);
-    this->pointRight.y = y - radius;
+    this->pointRight.x = x + (radius*2);
+    this->pointRight.y = y + radius;
 
-    this->pointDown.x = x - radius;
-    this->pointDown.y = y - (radius*2);
+    this->pointDown.x = x + radius;
+    this->pointDown.y = y + (radius*2);
 
     // this->pointCenter.x = x - radius;
     // this->pointCenter.y = y - radius;
@@ -136,10 +137,10 @@ void Cercle::updateCo(){
 
 bool Cercle::hasCollide(const float x, const float y, const std::vector<Plateforme> &plateforme){
     for (int i = 0; i < plateforme.size(); i++){
-        sf::Vector2f origine = plateforme[i].getShape().getOrigin();
+        sf::Vector2f origine = plateforme[i].getShape().getPosition();
         sf::Vector2f size = plateforme[i].getShape().getSize();
-        if(x > origine.x || x < origine.x - size.x) continue;
-        if(y > origine.y || y < origine.y - size.y) continue;
+        if(x < origine.x || x > origine.x + size.x) continue;
+        if(y < origine.y || y > origine.y + size.y) continue;
         return true;
     }
     return false;

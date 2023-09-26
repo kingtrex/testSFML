@@ -3,19 +3,8 @@
 Plateforme::Plateforme(sf::Vector2f origine, sf::Vector2f size, int color, float angle){
     std::cout << "Création plateforme" << std::endl;
     this->shape = sf::RectangleShape();
-    if(!angle)this->shape.setOrigin(origine);
-    else{
-        std::cout << "cc" << std::endl;
-        double radius = sqrt(pow(origine.x, 2) + pow(origine.y, 2));
-        sf::Vector2f nouvOrigine;
-        double angleRad = angle * M_PI / 180;
-        std::cout << "angle: " << angleRad << std::endl;
-        nouvOrigine.x = -(radius * cos(angleRad));
-        nouvOrigine.y = radius * sin(angleRad);
-        this->shape.setOrigin(nouvOrigine);
-        this->shape.rotate(angle);
-    }
-    //this->shape.setPosition(origine);
+    this->shape.setPosition(origine);
+    this->shape.setRotation(angle);    
     this->shape.setSize(size);
     switch(color){
         case 1:
@@ -31,7 +20,7 @@ Plateforme::Plateforme(sf::Vector2f origine, sf::Vector2f size, int color, float
     this->setCo();
     this->colId = color;
     std::cout << "plateforme construite" << std::endl;
-    std::cout << "(" << this->shape.getOrigin().x << " ; " << this->shape.getOrigin().y << ")" << std::endl;
+    std::cout << "(" << this->shape.getPosition().x << " ; " << this->shape.getPosition().y << ")" << std::endl;
 }
 
 void Plateforme::setCo(sf::Vector2f co){
@@ -70,5 +59,5 @@ const sf::Vector2f Plateforme::getBottom()const{
 }
 
 void fixPoint(sf::Vector2f co, double size, float angle, double radius){
-
+    
 }
