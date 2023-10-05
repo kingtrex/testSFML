@@ -13,6 +13,7 @@ class Monde{
 
     void mouvementEntite(float temps);
     void dessine(sf::RenderWindow &window);
+    Cercle getJoueur() {return this->entite[0];};
     private:
     std::vector<Cercle> entite;
     std::vector<Plateforme> plateforme;

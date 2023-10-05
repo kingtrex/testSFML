@@ -87,13 +87,17 @@ void Cercle::mouvement(float temps, const std::vector<Plateforme> &rect){
         pos += this->velocity;
         this->shape.setPosition(pos);
     }
+    if(this->shape.getPosition().y > 500){
+        this->shape.setPosition(this->shape.getPosition().x,this->shape.getPosition().y - 500);
+        this->velocity.y = 0;
+    }
     updateCo();
     
 }
 
 void Cercle::updateCo(){
-    int x = this->shape.getOrigin().x;
-    int y = this->shape.getOrigin().y;
+    int x = this->shape.getPosition().x;
+    int y = this->shape.getPosition().y;
     float radius = this->shape.getRadius();
     this->pointUp.x = x + radius; 
     this->pointUp.y = y;
@@ -107,8 +111,8 @@ void Cercle::updateCo(){
     this->pointDown.x = x + radius;
     this->pointDown.y = y + (radius*2);
 
-    // this->pointCenter.x = x - radius;
-    // this->pointCenter.y = y - radius;
+    this->pointCenter.x = x + radius;
+    this->pointCenter.y = y + radius;
 }
 
 // bool Cercle::isCol(std::vector<Plateforme> plateforme){

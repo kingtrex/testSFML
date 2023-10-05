@@ -2,19 +2,23 @@
 
 Monde::Monde(){
     this->entite.push_back(Cercle());
-    sf::Vector2f pos(0,150);
-    sf::Vector2f size(250, 20);
-    plateforme.push_back(Plateforme(pos, size, 1));
+    sf::Vector2f pos(-50,150);
+    sf::Vector2f size(300, 20);
+    this->plateforme.push_back(Plateforme(pos, size, 1));
     pos = sf::Vector2f(150, 350);
-    plateforme.push_back(Plateforme(pos, size, 1));
+    this->plateforme.push_back(Plateforme(pos, size, 1));
     
     pos = sf::Vector2f(150+250, 0);
     size = sf::Vector2f(20, 500);
-    plateforme.push_back(Plateforme(pos, size, 2));
+    this->plateforme.push_back(Plateforme(pos, size, 2));
 
     pos = sf::Vector2f(400, 0);
     size = sf::Vector2f(200, 50);
-    plateforme.push_back(Plateforme(pos, size, 3, 45));
+    this->plateforme.push_back(Plateforme(pos, size, 3, 45));
+
+    pos = sf::Vector2f(-250, 250);
+    size = sf::Vector2f(500, 20);
+    this->plateforme.push_back(Plateforme(pos, size, 1));
 
 
 }

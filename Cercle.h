@@ -64,6 +64,8 @@ class Cercle{
          * 1 si x > 1
          */
         int sign(const float x);
+
+        const sf::Vector2f getPointCenter(){return this->pointCenter;}
     private:
         sf::CircleShape shape;
         sf::Vector2f pointLeft, pointRight, pointUp, pointDown, pointCenter;
