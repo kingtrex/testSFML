@@ -1,2 +1,5 @@
 *.o
 *.exe
+/CMakeFiles/
+/cmake-build-debug/
+/_deps/
