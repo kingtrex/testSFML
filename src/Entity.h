@@ -4,23 +4,23 @@
 #include <iostream>
 #include "Plateforme.h"
 #include <cmath>
-class Cercle{
+class Entity{
     public:
-        Cercle();
-        ~Cercle(){};
+        explicit Entity(const std::string& name = "coincoin");
+        ~Entity()= default;
         /**
          * @brief déplacement des entités
          * 
          * @param temps 
          * @param rect 
          */
-        void mouvement(float temps, const std::vector<Plateforme> &rect);
+        void movement(float temps, const std::vector<Plateforme> &rect);
         /**
          * @brief Get the Shape object
          * 
          * @return sf::CircleShape& 
          */
-        sf::CircleShape &getShape(){return this->shape;}
+        sf::Sprite getSprite(){return this->sprite;}
         /**
          * @brief mettre a jour les coordonnées importantes de l'entité
          * 
@@ -54,7 +54,7 @@ class Cercle{
          * @return true Il y a collision
          * @return false sinon
          */
-        bool hasCollide(const float x, const float y, const std::vector<Plateforme> &plateforme);
+        static bool hasCollide(float x, float y, const std::vector<Plateforme> &plateforme);
         /**
          * @brief retourne le signe de x
          * 
@@ -63,16 +63,21 @@ class Cercle{
          * 0 si x = 0,
          * 1 si x > 1
          */
-        int sign(const float x);
+        static int sign(float x);
 
-        const sf::Vector2f getPointCenter(){return this->pointCenter;}
+        sf::Vector2f getPointCenter(){return this->pointCenter;}
     private:
-        sf::CircleShape shape;
+        sf::Sprite sprite;
+        sf::Texture texture;
         sf::Vector2f pointLeft, pointRight, pointUp, pointDown, pointCenter;
+        sf::Vector2f co;
+        sf::Vector2u size;
         sf::Vector2f velocity;
+        bool isRight;
         int fall;
         int speed;
         int jump;
-        bool onGround;
+        bool onGround{};
+        std::string name;
 };
 #endif

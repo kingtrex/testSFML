@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-#include "Cercle.h"
+#include "Entity.h"
 #include "Plateforme.h"
 
 class Monde{
@@ -13,9 +13,9 @@ class Monde{
 
     void mouvementEntite(float temps);
     void dessine(sf::RenderWindow &window);
-    Cercle getJoueur() {return this->entite[0];};
+    Entity getJoueur() {return this->entite[0];};
     private:
-    std::vector<Cercle> entite;
+    std::vector<Entity> entite;
     std::vector<Plateforme> plateforme;
 };
 
