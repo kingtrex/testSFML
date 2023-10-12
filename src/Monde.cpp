@@ -12,6 +12,9 @@ Monde::Monde(){
     size = sf::Vector2f(20, 500);
     this->plateforme.emplace_back(pos, size, 2);
 
+    pos = sf::Vector2f(-150, 0);
+    this->plateforme.emplace_back(pos, size, 2);
+
     pos = sf::Vector2f(400, 0);
     size = sf::Vector2f(200, 50);
     this->plateforme.emplace_back(pos, size, 3, 45);

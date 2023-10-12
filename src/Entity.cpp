@@ -6,7 +6,7 @@ Entity::Entity(const std::string& name){
     std::cout << "construction cercle" << std::endl;
     this->texture.loadFromFile(name + "R.png");
     this->sprite.setTexture(this->texture);
-    this->sprite.setRotation(45);
+    //this->sprite.setRotation(45);
     std::cout << "cercle construit" << std::endl;
     this->fall = 0;
     this->speed = 1;
@@ -25,7 +25,7 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
 
         // velocity.y = -1.0f;
 
-        //1: a gauche, -1: a droite
+        //1: a droite, -1: a gauche
         auto movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
         - sf::Keyboard::isKeyPressed(sf::Keyboard::Left));
 
@@ -58,8 +58,8 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
 
         switch(sign(this->velocity.x)){
             case -1:
-            if(hasCollide((pos.x + sizeX)  + this->velocity.x, pos.y - (sizeY / 2), rect)){
-                while(!hasCollide((pos.x - sizeX) + sign(this->velocity.x), pos.y - (sizeY / 2), rect)){
+            if(hasCollide((pos.x)  + this->velocity.x, pos.y - (sizeY / 2), rect)){
+                while(!hasCollide((pos.x) + sign(this->velocity.x), pos.y - (sizeY / 2), rect)){
                     pos.x = pos.x + sign(this->velocity.x);
                 }
                 this->velocity.x = 0;
@@ -124,7 +124,7 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
 void Entity::updateCo(){
     float x = this->sprite.getPosition().x;
     float y = this->sprite.getPosition().y;
-    float angle = this->sprite.getRotation() * M_PI / 180;
+    auto angle = static_cast<float>(this->sprite.getRotation() * M_PI / 180);
 
     auto sizeX = static_cast<float>(this->size.x);
     auto sizeY = static_cast<float>(this->size.y);
