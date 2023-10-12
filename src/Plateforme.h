@@ -48,8 +48,8 @@ class Plateforme{
      * @return const int 
      */
     const int getCol()const {return this->colId;}
-    const sf::Vector2f getTop()const;
-    const sf::Vector2f getBottom()const;
+    sf::Vector2f getTop()const;
+    sf::Vector2f getBottom()const;
 
     /*
         modifier les coordonnées des bords gauche et droite de la plateforme

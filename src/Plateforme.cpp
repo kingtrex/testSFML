@@ -44,14 +44,14 @@ void Plateforme::setCo(){
     this->bottomRightCorner.y = origin.y - size.y;
 }
 
-const sf::Vector2f Plateforme::getTop()const{
+sf::Vector2f Plateforme::getTop()const{
     sf::Vector2f topRight = this->getUpRight();
     sf::Vector2f topLeft = this->getUpLeft();
 
     return topLeft.y>topRight.y?topLeft:topRight;
 }
 
-const sf::Vector2f Plateforme::getBottom()const{
+sf::Vector2f Plateforme::getBottom()const{
     sf::Vector2f bottomRight = this->getBottomRight();
     sf::Vector2f bottomLeft = this->getBottomLeft();
 

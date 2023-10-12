@@ -1,13 +1,12 @@
 #include "Entity.h"
 
+#include <cmath>
+
 Entity::Entity(const std::string& name){
     std::cout << "construction cercle" << std::endl;
     this->texture.loadFromFile(name + "R.png");
     this->sprite.setTexture(this->texture);
-    //this->sprite.setPosition(50,0);
-    //this->sprite.create(100,100, sf::Color::Red);
-    //this->sprite.copy(this->image, 0, 0);
-    //sprite.loadFromFile(name);
+    this->sprite.setRotation(45);
     std::cout << "cercle construit" << std::endl;
     this->fall = 0;
     this->speed = 1;
@@ -25,7 +24,7 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
 
 
         // velocity.y = -1.0f;
-        
+
         //1: a gauche, -1: a droite
         auto movX = static_cast<float>(sf::Keyboard::isKeyPressed(sf::Keyboard::Right)
         - sf::Keyboard::isKeyPressed(sf::Keyboard::Left));
@@ -72,7 +71,7 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
                     pos.x = pos.x + sign(this->velocity.x);
                 }
                 this->velocity.x = 0;
-            }            
+            }
             break;
         }
         //collision en Y
@@ -86,7 +85,7 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
                 this->velocity.y = 0;
                 this->onGround = true;
                 this->jump = 0;
-            }      
+            }
         }else{
             if(hasCollide(pos.x + (sizeX/2), pos.y + this->velocity.y, rect)){
                 while(!hasCollide(pos.x + (sizeX/2), pos.y + sign(this->velocity.y), rect)){
@@ -94,7 +93,7 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
                 }
                 this->velocity.y = 0;
 
-            }      
+            }
         }
 
         // if(hasCollide(pos.x - radius, (pos.y - 2*radius) + this->velocity.y, rect)){
@@ -102,9 +101,13 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
         //         pos.y = pos.y + sign(this->velocity.y);
         //     }
         //     this->velocity.y = 0;
-        // }      
+        // }
 
         pos += this->velocity;
+        if(pos.y > 500) {
+            pos.y = 0;
+            velocity.y = 0;
+        }
         this->sprite.setPosition(pos.x, pos.y);
     }
     if(this->co.y > 500){
@@ -115,28 +118,39 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
         this->velocity.y = 0;
     }
     updateCo();
-    
+
 }
 
 void Entity::updateCo(){
     float x = this->sprite.getPosition().x;
     float y = this->sprite.getPosition().y;
+    float angle = this->sprite.getRotation() * M_PI / 180;
+
     auto sizeX = static_cast<float>(this->size.x);
     auto sizeY = static_cast<float>(this->size.y);
-    this->pointUp.x = x + sizeX /2;
-    this->pointUp.y = y;
+    this->pointUp.x = (x + sizeX /2)* std::cos(angle);
+    this->pointUp.y = y * std::sin(angle);
 
-    this->pointLeft.x = x;
-    this->pointLeft.y = y + (sizeY/2);
+    this->pointLeft.x = x * std::cos(angle);
+    this->pointLeft.y = (y + (sizeY/2)) * std::sin(angle);
 
-    this->pointRight.x = x + (sizeX);
-    this->pointRight.y = y + (sizeY/2);
+    this->pointRight.x = (x + (sizeX)) * std::cos(angle);
+    this->pointRight.y = (y + (sizeY/2)) * std::sin(angle);
 
-    this->pointDown.x = x + (sizeX/2);
-    this->pointDown.y = y + (sizeY);
+    this->pointDown.x = (x + (sizeX/2)) * std::cos(angle);
+    this->pointDown.y = (y + (sizeY)) * std::sin(angle);
 
-    this->pointCenter.x = x + sizeX/2;
-    this->pointCenter.y = y + (sizeY/2);
+    this->pointCenter.x = (x + sizeX/2) * std::cos(angle);
+    this->pointCenter.y = (y + (sizeY/2)) * std::sin(angle);
+
+    this->topRight.x = (x + sizeX) * std::cos(angle);
+    this->topRight.y = y * std::sin(angle);
+
+    this->bottomRight.x = (x + sizeX) * std::cos(angle);
+    this->bottomRight.y = (y + sizeY) * std::sin(angle);
+
+    this->bottomLeft.x = x * std::cos(angle);
+    this->bottomLeft.y = (y + sizeY) * std::sin(angle);
 }
 
 bool Entity::hasCollide(const float x, const float y, const std::vector<Plateforme> &plateforme){

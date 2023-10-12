@@ -70,6 +70,7 @@ class Entity{
         sf::Sprite sprite;
         sf::Texture texture;
         sf::Vector2f pointLeft, pointRight, pointUp, pointDown, pointCenter;
+        sf::Vector2f topRight, bottomRight, bottomLeft;
         sf::Vector2f co;
         sf::Vector2u size;
         sf::Vector2f velocity;
