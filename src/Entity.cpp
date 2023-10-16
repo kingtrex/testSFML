@@ -58,16 +58,16 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
 
         switch(sign(this->velocity.x)){
             case -1:
-            if(hasCollide((pos.x)  + this->velocity.x, pos.y - (sizeY / 2), rect)){
-                while(!hasCollide((pos.x) + sign(this->velocity.x), pos.y - (sizeY / 2), rect)){
+            if(hasCollide((pos.x)  + this->velocity.x, pos.y + (sizeY / 2), rect)){
+                while(!hasCollide((pos.x) + sign(this->velocity.x), pos.y + (sizeY / 2), rect)){
                     pos.x = pos.x + sign(this->velocity.x);
                 }
                 this->velocity.x = 0;
             }
             break;
             case 1:
-            if(hasCollide((pos.x + sizeX)  + this->velocity.x, pos.y - (sizeY / 2), rect)){
-                while(!hasCollide((pos.x + sizeX) + sign(this->velocity.x), pos.y - (sizeY / 2), rect)){
+            if(hasCollide((pos.x + sizeX)  + this->velocity.x, pos.y + (sizeY / 2), rect)){
+                while(!hasCollide((pos.x + sizeX) + sign(this->velocity.x), pos.y + (sizeY / 2), rect)){
                     pos.x = pos.x + sign(this->velocity.x);
                 }
                 this->velocity.x = 0;
@@ -154,12 +154,14 @@ void Entity::updateCo(){
 }
 
 bool Entity::hasCollide(const float x, const float y, const std::vector<Plateforme> &plateforme){
-    for (const auto & i : plateforme){
-        sf::Vector2f origine = i.getShape().getPosition();
-        sf::Vector2f size = i.getShape().getSize();
-        if(x < origine.x || x > origine.x + size.x) continue;
-        if(y < origine.y || y > origine.y + size.y) continue;
-        return true;
+    if(!sf::Keyboard::isKeyPressed(sf::Keyboard::Down)){
+        for (const auto & i : plateforme){
+            sf::Vector2f origine = i.getShape().getPosition();
+            sf::Vector2f size = i.getShape().getSize();
+            if(x < origine.x || x > origine.x + size.x) continue;
+            if((y < origine.y || y > origine.y + size.y)) continue;
+            return true;
+        }
     }
     return false;
 }
