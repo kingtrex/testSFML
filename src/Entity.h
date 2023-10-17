@@ -4,9 +4,10 @@
 #include <iostream>
 #include "Plateforme.h"
 #include <cmath>
+#include "define.h"
 class Entity{
     public:
-        explicit Entity(const std::string& name = "coincoin");
+        explicit Entity(const std::string& name = "image/coincoin");
         ~Entity()= default;
         /**
          * @brief déplacement des entités
@@ -64,7 +65,18 @@ class Entity{
          * 1 si x > 1
          */
         static int sign(float x);
-
+        /**
+         * @brief change sprite scale
+         * @param x
+         * @param y
+         */
+        void setScale(float x, float y);
+        /**
+         * @brief change sprite scale
+         * @param newScale
+         */
+        void setScale(sf::Vector2f newScale);
+        void setRealSize();
         sf::Vector2f getPointCenter(){return this->pointCenter;}
     private:
         sf::Sprite sprite;
@@ -72,8 +84,10 @@ class Entity{
         sf::Vector2f pointLeft, pointRight, pointUp, pointDown, pointCenter;
         sf::Vector2f topRight, bottomRight, bottomLeft;
         sf::Vector2f co;
-        sf::Vector2u size;
+        sf::Vector2u defaultSize;
+        sf::Vector2f realSize;
         sf::Vector2f velocity;
+        sf::Vector2f scale;
         bool isRight;
         int fall;
         int speed;

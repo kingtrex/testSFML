@@ -1,0 +1,4 @@
+ #ifndef SIZE
+#define SIZE 1000
+
+#endif //CMAKESFMLPROJECT_DEFINE_H

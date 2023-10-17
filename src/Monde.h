@@ -9,11 +9,11 @@
 class Monde{
     public:
     Monde();
-    ~Monde(){};
+    ~Monde()= default;
 
-    void mouvementEntite(float temps);
-    void dessine(sf::RenderWindow &window);
-    Entity getJoueur() {return this->entite[0];};
+    void moveEntity(float temps);
+    void draw(sf::RenderWindow &window);
+    Entity getPlayer() {return this->entite[0];};
     private:
     std::vector<Entity> entite;
     std::vector<Plateforme> plateforme;

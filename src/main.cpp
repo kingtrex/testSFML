@@ -1,9 +1,11 @@
 #include "headers.h"
+
+#include "define.h"
 int main(){
     //initialisation de la fenêtre
-    sf::RenderWindow window(sf::VideoMode(500, 500), "SFML works!");
+    sf::RenderWindow window(sf::VideoMode(SIZE, SIZE), "SFML works!");
     sf::View view;
-    view.reset(sf::FloatRect(0,0,500,500));
+    view.reset(sf::FloatRect(0,0,SIZE,SIZE));
     window.setView(view);
     //initialisation du monde
     Monde world;
@@ -20,26 +22,26 @@ int main(){
             }
         }    
         //std::cout << clock.getElapsedTime().asSeconds() << std::endl;
-            
-        world.mouvementEntite(clock.getElapsedTime().asSeconds());
+
+        world.moveEntity(clock.getElapsedTime().asSeconds());
         //période
         if(clock.getElapsedTime().asSeconds() > 0.01){
             clock.restart();
         }
 
-        if(world.getJoueur().getPointCenter().x < coView){
-            coView-=500;
-            view.reset(sf::FloatRect(coView, 0, 500, 500));
+        if(world.getPlayer().getPointCenter().x < coView){
+            coView-=SIZE;
+            view.reset(sf::FloatRect(coView, 0, SIZE, SIZE));
             window.setView(view);
-        }else if(world.getJoueur().getPointCenter().x > coView + 500){
-            coView+=500;
-            view.reset(sf::FloatRect(coView, 0, 500, 500));
+        }else if(world.getPlayer().getPointCenter().x > coView + SIZE){
+            coView+=SIZE;
+            view.reset(sf::FloatRect(coView, 0, SIZE, SIZE));
             window.setView(view);
         }
         
         //afficher le contenu de la fenêtre
         window.clear();
-        world.dessine(window);
+        world.draw(window);
         window.display();
     }
 

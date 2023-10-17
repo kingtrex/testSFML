@@ -5,7 +5,10 @@
 Entity::Entity(const std::string& name){
     std::cout << "construction cercle" << std::endl;
     this->texture.loadFromFile(name + "R.png");
+    this->defaultSize.x = this->texture.getSize().x;
+    this->defaultSize.y = this->texture.getSize().y;
     this->sprite.setTexture(this->texture);
+    this->setScale(0.25,0.25);
     //this->sprite.setRotation(45);
     std::cout << "cercle construit" << std::endl;
     this->fall = 0;
@@ -13,7 +16,7 @@ Entity::Entity(const std::string& name){
     this->jump = 0;
     this->name = name;
     this->isRight = true;
-    this->size = this->texture.getSize();
+    this->defaultSize = this->texture.getSize();
 
     updateCo();
 }
@@ -52,22 +55,22 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
         sf::Vector2f pos = this->sprite.getPosition();
 
         //float radius = this->shape.getRadius();
-        auto sizeX = static_cast<float>(this->size.x);
-        auto sizeY = static_cast<float>(this->size.y);
+        auto sizeX = static_cast<float>(this->defaultSize.x);
+        auto sizeY = static_cast<float>(this->defaultSize.y);
 
 
         switch(sign(this->velocity.x)){
             case -1:
-            if(hasCollide((pos.x)  + this->velocity.x, pos.y + (sizeY / 2), rect)){
-                while(!hasCollide((pos.x) + sign(this->velocity.x), pos.y + (sizeY / 2), rect)){
+            if(hasCollide((pos.x)  + this->velocity.x, pos.y + (this->realSize.y / 2), rect)){
+                while(!hasCollide((pos.x) + sign(this->velocity.x), pos.y + (this->realSize.y / 2), rect)){
                     pos.x = pos.x + sign(this->velocity.x);
                 }
                 this->velocity.x = 0;
             }
             break;
             case 1:
-            if(hasCollide((pos.x + sizeX)  + this->velocity.x, pos.y + (sizeY / 2), rect)){
-                while(!hasCollide((pos.x + sizeX) + sign(this->velocity.x), pos.y + (sizeY / 2), rect)){
+            if(hasCollide((pos.x + this->realSize.x)  + this->velocity.x, pos.y + (this->realSize.y / 2), rect)){
+                while(!hasCollide((pos.x + this->realSize.x) + sign(this->velocity.x), pos.y + (this->realSize.y / 2), rect)){
                     pos.x = pos.x + sign(this->velocity.x);
                 }
                 this->velocity.x = 0;
@@ -78,8 +81,8 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
         //modifier cet endroit pour les jump
 
         if(sign(this->velocity.y) > 0){
-            if(hasCollide(pos.x + (sizeX/2), pos.y + sizeY + this->velocity.y, rect)){
-                while(!hasCollide(pos.x + (sizeX/2), pos.y + sizeY + sign(this->velocity.y), rect)){
+            if(hasCollide(pos.x + (this->realSize.x/2), pos.y + this->realSize.y + this->velocity.y, rect)){
+                while(!hasCollide(pos.x + (this->realSize.x/2), pos.y + this->realSize.y + sign(this->velocity.y), rect)){
                     pos.y = pos.y + sign(this->velocity.y);
                 }
                 this->velocity.y = 0;
@@ -87,8 +90,8 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
                 this->jump = 0;
             }
         }else{
-            if(hasCollide(pos.x + (sizeX/2), pos.y + this->velocity.y, rect)){
-                while(!hasCollide(pos.x + (sizeX/2), pos.y + sign(this->velocity.y), rect)){
+            if(hasCollide(pos.x + (this->realSize.x/2), pos.y + this->velocity.y, rect)){
+                while(!hasCollide(pos.x + (this->realSize.x/2), pos.y + sign(this->velocity.y), rect)){
                     pos.y = pos.y - sign(this->velocity.y);
                 }
                 this->velocity.y = 0;
@@ -104,19 +107,13 @@ void Entity::movement(float temps, const std::vector<Plateforme> &rect){
         // }
 
         pos += this->velocity;
-        if(pos.y > 500) {
+        if(pos.y > SIZE) {
             pos.y = 0;
             velocity.y = 0;
         }
         this->sprite.setPosition(pos.x, pos.y);
     }
-    if(this->co.y > 500){
-        std::cout << "aaaa" << std::endl;
-        this->sprite.setPosition(static_cast<float>(this->co.x), static_cast<float>(this->co.y)-500);
 
-        //this->shape.setPosition(this->shape.getPosition().x,this->shape.getPosition().y - 500);
-        this->velocity.y = 0;
-    }
     updateCo();
 
 }
@@ -126,8 +123,8 @@ void Entity::updateCo(){
     float y = this->sprite.getPosition().y;
     auto angle = static_cast<float>(this->sprite.getRotation() * M_PI / 180);
 
-    auto sizeX = static_cast<float>(this->size.x);
-    auto sizeY = static_cast<float>(this->size.y);
+    auto sizeX = static_cast<float>(this->defaultSize.x) * this->sprite.getScale().x;
+    auto sizeY = static_cast<float>(this->defaultSize.y) * this->sprite.getScale().y;
     this->pointUp.x = (x + sizeX /2)* std::cos(angle);
     this->pointUp.y = y * std::sin(angle);
 
@@ -170,4 +167,25 @@ int Entity::sign(const float x){
     if(x < 0) return -1;
     if(x > 0) return 1;
     return 0;
+}
+
+void Entity::setScale(float x, float y) {
+    this->scale.x = x;
+    this->scale.y = y;
+    this->sprite.setScale(this->scale.x, this->scale.y);
+    this->setRealSize();
+}
+
+
+void Entity::setScale(sf::Vector2f newScale) {
+    this->scale.x = newScale.x;
+    this->scale.y = newScale.y;
+    this->sprite.setScale(this->scale.x, this->scale.y);
+    this->setRealSize();
+}
+
+void Entity::setRealSize() {
+    this->realSize.x = static_cast<float>(this->defaultSize.x) * this->scale.x;
+    this->realSize.y = static_cast<float>(this->defaultSize.y) * this->scale.y;
+
 }

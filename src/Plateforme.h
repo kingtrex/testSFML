@@ -3,6 +3,7 @@
 #include "SFML/Graphics.hpp"
 #include <iostream>
 #include <cmath>
+#include "define.h"
 class Plateforme{
     public:
     /*

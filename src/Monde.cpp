@@ -26,13 +26,13 @@ Monde::Monde(){
 
 }
 
-void Monde::mouvementEntite(float temps){
-    for(int i = 0; i < this->entite.size(); i++){
-        this->entite[i].movement(temps, this->plateforme);
+void Monde::moveEntity(float temps){
+    for(auto & i : this->entite){
+        i.movement(temps, this->plateforme);
     }
 }
 
-void Monde::dessine(sf::RenderWindow &window){
+void Monde::draw(sf::RenderWindow &window){
     for(auto & i : this->entite){
         window.draw(i.getSprite());
     }
